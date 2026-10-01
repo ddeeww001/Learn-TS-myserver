@@ -18,7 +18,7 @@
 name: Workflow 1
 on: [push]
 jobs:
-  print-text:
+ job1:
    runs-on: ubuntu-latest
    steps:
      - name : Checkout code
