@@ -2,10 +2,10 @@
 # on: [push]
 # jobs:
 #   job1:
-#    runs-on: ubuntu-latest 
+#    runs-on: ubuntu-latest
 #    steps:
 #     - name: Run Test0
-#       run: | 
+#       run: |
 #        output=$(node dist/Test1.js)
 #        exit_code=$output
 #        if [ $exit_code -ne 0 ]; then
@@ -15,21 +15,21 @@
 name: test2
 
 on:
- push:
-  branches:
-  - main
+  push:
+    branches:
+      - main
 jobs:
- job1:
-  runs-on: ubuntu-latest
+  job1:
+    runs-on: ubuntu-latest
 
-  steps:
-  - name: Checkout code
-    uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  - name: Setup Node.js
-    uses: actions/setup-node@v2
-    with:
-     node-version: '22'
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "22.19.0"
 
-  - name: Run Test1
-    run: node dist/Test1.js
+      - name: Run Test1
+        run: node dist/Test1.js
