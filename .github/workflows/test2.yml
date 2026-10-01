@@ -32,4 +32,4 @@ jobs:
           node-version: "22.19.0"
 
       - name: Run Test1
-        run: node dist/Test1.js
+        run: node src/Test1.js

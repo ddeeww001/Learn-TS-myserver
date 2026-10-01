@@ -1,5 +1,5 @@
 "use strict";
-const utils = require('../src/Utils');
+const utils = require('./Utils');
 const unit_test = async () => {
     if (utils.add(2, 2) === 5) {
     }

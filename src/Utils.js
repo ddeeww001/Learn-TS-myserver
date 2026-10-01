@@ -4,4 +4,7 @@ function helloworld() {
 function add(a, b) {
     return a + b;
 }
-export const Utils = { add };
+export const utils = {
+    helloworld,
+    add
+};
