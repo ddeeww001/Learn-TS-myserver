@@ -30,3 +30,6 @@ jobs:
     uses: actions/setup-node@v2
     with:
      node-version: '22'
+
+  - name: Run Test1
+    run: node dist/Test1.js
