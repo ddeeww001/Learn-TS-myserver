@@ -12,7 +12,7 @@ const unit_test = async ()=>{
             console.log("test case 2: utils.add(3,3)===6");
             process.exit(1);
         }
-    if(utils.add(-3,-3)=== -6){
+    if(utils.add(3,-3)=== -6){
     }
         else{
             console.log("test case 2: utils.add(3,-3)=== -6");
