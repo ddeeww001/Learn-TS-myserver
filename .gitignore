@@ -1,3 +1,49 @@
+# ===== Dependencies =====
+# มี package.json หลายร้อยไฟล์อยู่ในนี้ ไม่ต้องอัปขึ้น GitHub (ติดตั้งใหม่ได้ด้วย npm ci)
+node_modules/
 
+# ===== Environment / Secrets =====
+.env*
+# ไฟล์ credential/key แบบ JSON (เช่น Google service account)
+*credentials*.json
+*service-account*.json
+*secret*.json
+*.key.json
+
+# ===== Build output =====
 !dist/
 !dist/index.js
+*.tsbuildinfo
+
+# ===== Cache (เช่น mongod ของ mongodb-memory-server) =====
+.cache/
+.npm/
+.eslintcache
+
+# ===== Test / Coverage =====
+coverage/
+.nyc_output/
+jest-results.json
+test-results/
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Editor / OS =====
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ===== Scratch =====
+scratch_*
+
+# หมายเหตุ: ห้าม ignore ไฟล์เหล่านี้ เพราะต้องใช้บน GitHub Actions
+#   package.json, package-lock.json  -> npm ci
+#   tsconfig.json, jest.config.js    -> tsc / jest
+#   nodemon.json                     -> config ของ npm run dev

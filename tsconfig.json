@@ -1,8 +1,8 @@
 {
   "include": [
     "src/**/*",
-    "dist/Test1.js"
-, "dist/Utils.js"  ],
+    "dist/Test1.js",
+    "dist/Utils.js"  ],
   "exclude": [
     "node_modules"
   ],
