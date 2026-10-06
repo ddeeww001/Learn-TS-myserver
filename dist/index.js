@@ -36,13 +36,13 @@ app.get('/', (req, res) => {
 });
 // Express Routes
 app.use('/api', UserRoute_1.default);
-mongoose_1.default.connect(mongoUri)
-    .then(() => {
-    console.log('Connected to MongoDB Atlas successfully!');
-    app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-    });
-})
-    .catch(err => {
-    console.error('Error connecting to MongoDB:', err);
-});
+mongoose_1.default.connect(mongoUri);
+//   .then(() => {
+//     console.log('Connected to MongoDB Atlas successfully!');
+//     app.listen(port, () => {
+//       console.log(`Server is running on port ${port}`);
+//     });
+//   })
+//   .catch(err => {
+//     console.error('Error connecting to MongoDB:', err);
+//   });

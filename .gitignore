@@ -47,3 +47,4 @@ scratch_*
 #   package.json, package-lock.json  -> npm ci
 #   tsconfig.json, jest.config.js    -> tsc / jest
 #   nodemon.json                     -> config ของ npm run dev
+*.dockerignore
