@@ -1,0 +1,1 @@
+const a:String[] = ["apple", "banana", "cherry"];

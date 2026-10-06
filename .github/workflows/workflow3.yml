@@ -1,0 +1,15 @@
+name: Workflow 3
+
+on:
+  workflow_run:
+    workflows: ["Workflow 2"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  print-text:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print workflow message
+        run: echo "Workflow 3 runs after Workflow 2 succeeded"

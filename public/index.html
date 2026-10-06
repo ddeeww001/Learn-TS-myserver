@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users</title>
+  </head>
+  <body>
+    <form id="user-form">
+      <label>Name <input name="name" required /></label>
+      <label>Email <input name="email" type="email" required /></label>
+      <label>Password <input name="password" type="password" minlength="6" required /></label>
+      <button type="submit">Create user</button>
+      <div id="status" role="status"></div>
+    </form>
+
+    <section class="panel">
+      <h2>Users</h2>
+      <p id="empty" class="muted">Loading users...</p>
+      <table hidden id="user-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Created</th><th>Actions</th></tr></thead>
+        <tbody id="user-list"></tbody>
+      </table>
+    </section>
+
+    <script>
+      const form = document.querySelector("#user-form");
+      const status = document.querySelector("#status");
+      const empty = document.querySelector("#empty");
+      const table = document.querySelector("#user-table");
+      const list = document.querySelector("#user-list");
+
+      function showStatus(message, type = "success") {
+        status.textContent = message;
+        status.className = type;
+      }
+
+      async function readError(response) {
+        const body = await response.json().catch(() => ({}));
+        return body.message || `Request failed (${response.status})`;
+      }
+
+      async function loadUsers() {
+        const response = await fetch("/api/users");
+        if (!response.ok) throw new Error(await readError(response));
+
+        const users = await response.json();
+        list.replaceChildren();
+        empty.hidden = users.length > 0;
+        empty.textContent = users.length ? "" : "No users yet.";
+        table.hidden = users.length === 0;
+
+        for (const user of users) {
+          const row = document.createElement("tr");
+          const name = document.createElement("td");
+          const email = document.createElement("td");
+          const created = document.createElement("td");
+          const actions = document.createElement("td");
+          const edit = document.createElement("button");
+          const remove = document.createElement("button");
+
+          name.textContent = user.name;
+          email.textContent = user.email;
+          created.textContent = user.createdAt ? new Date(user.createdAt).toLocaleString() : "-";
+          actions.className = "actions";
+          edit.textContent = "Edit";
+          edit.className = "secondary";
+          remove.textContent = "Delete";
+          remove.className = "danger";
+          edit.addEventListener("click", () => editUser(user));
+          remove.addEventListener("click", () => deleteUser(user));
+          actions.append(edit, remove);
+          row.append(name, email, created, actions);
+          list.append(row);
+        }
+      }
+
+      async function editUser(user) {
+        const name = window.prompt("Name", user.name);
+        const email = window.prompt("Email", user.email);
+        if (name === null || email === null) return;
+
+        const response = await fetch(`/api/users/${user._id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email }),
+        });
+
+        if (!response.ok) throw new Error(await readError(response));
+        showStatus("User updated");
+        await loadUsers();
+      }
+
+      async function deleteUser(user) {
+        if (!window.confirm(`Delete ${user.name}?`)) return;
+
+        const response = await fetch(`/api/users/${user._id}`, { method: "DELETE" });
+        if (!response.ok) throw new Error(await readError(response));
+        showStatus("User deleted");
+        await loadUsers();
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form));
+
+        try {
+          const response = await fetch("/api/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+
+          if (!response.ok) throw new Error(await readError(response));
+          form.reset();
+          showStatus("User created");
+          await loadUsers();
+        } catch (error) {
+          showStatus(error.message, "error");
+        }
+      });
+
+      loadUsers().catch((error) => showStatus(error.message, "error"));
+    </script>
+  </body>
+</html>
